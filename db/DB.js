@@ -3,47 +3,49 @@ const connection = require("../configuration/connection");
 connection.connect(function (err) {if (err) throw err;});
 
 class DB {
-    constructor(){
+    /*constructor(){
         this.connection == connection;
-    }
+    }*/
     findAllEmployees() {
-        return this.connection.query(
-            "SELECT employees.id, (employees.first_name,' ', employees.last_name) AS employee, roles.title, departments.name AS department, roles.salary, (manager.first_name,' ', manager.last_name) AS manager FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments on roles.department_id = departments.id;"
-        )
-    }
+        connection.query("SELECT * FROM employees", function (err, results) {
+                console.log(results);
+              });
+             }
     
     findAllDepartments() {
-        return this.connection.query(
-            "SELECT departments.name AS department, departments.id FROM departments;"
-        )
-    }
+        return connection.query(
+            "SELECT departments.name AS department, departments.id FROM departments", function (err, results) {
+                console.log(results);
+              });
+            }
 
     findAllRoles(){
-        return this.connection.query(
-            "SELECT roles.title, roles.salary, roles.is, departments.name AS department FROM roles JOIN departments ON roles.department_id = departments.id;"
-        )
+        return connection.query(
+            "SELECT roles.title, roles.salary, roles.is, departments.name AS department FROM roles JOIN departments ON roles.department_id = departments.id;", function (err, results) {
+                console.log(results);
+              });
     }
 
     addEmployee(fName, lName, roleID, managerID, departmentID){
-        this.connection.query(
+        connection.query(
             `INSERT INTO employees (first_name, last_name, role_id, manager_id, department_id) VALUES ( ${fName}, ${lName}, ${roleID}, ${managerID}, ${departmentID});`
         )
     }
 
     addRole(title, salary, departmentID) {
-        this.connection.query(
+        connection.query(
             `INSERT INTO roles (title, salary, department_id) VALUES ( ${title}, ${salary}, ${departmentID});`
         )
     }
 
     addDepartment(name) {
-        this.connection.query(
+        connection.query(
             `INSERT INTO departments (name) VALUES ( ${name});`
         )
     }
 
     updateEmployee(key, value, id) {
-        this.connection.query(
+        connection.query(
             `UPDATE employees SET ${key}=${value} WHERE id=${id};`
         )
     }
