@@ -46,13 +46,13 @@ function mainMenu () {
     ]).then(res => {
         let choice = res.choice;
         if (res.choice == "VIEW EMPLOYEES"){
-            viewEmployees();
+            db.findAllEmployees;
+        } else if (res.choice == "VIEW DEPARTMENTS"){
+            db.findAllDepartments;
+        } else if (res.choice == "VIEW EMPLOYEES BY MANAGER"){
+            
         }
     })
-}
-
-function viewEmployees() {
-    db.findAllEmployees()
 }
 
 mainMenu();

@@ -3,9 +3,9 @@ const connection = require("../configuration/connection");
 connection.connect(function (err) {if (err) throw err;});
 
 class DB {
-    /*constructor(){
+    constructor(){
         this.connection == connection;
-    }*/
+    }
     findAllEmployees() {
         connection.query("SELECT * FROM employees", function (err, results) {
                 console.log(results);
