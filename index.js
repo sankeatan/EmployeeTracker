@@ -48,20 +48,17 @@ function mainMenu () {
         switch (choice){
             case "VIEW EMPLOYEES":
                     db.findAllEmployees().then(res =>{
-                        console.table(res[0]);
-                        backToMainMenu();
+                        displayEmployees(res[0]);
                         });
                 break;
             case "VIEW DEPARTMENTS":
                 db.findAllDepartments().then(res =>{
-                    console.table(res[0]);
-                    backToMainMenu();
+                    displayDepartments(res[0]);
                     });
                 break;
             case "VIEW ROLES":
                 db.findAllRoles().then(res =>{
-                    console.table(res[0]);
-                    backToMainMenu();
+                    displayRoles(res[0]);
                     });
                 break;
             case "ADD EMPLOYEE":
@@ -123,6 +120,7 @@ async function updateEmployeeQuestions () {
             choices: employeeChoices,
         }
     ]).then(async res => {
+        console.log(res.employee);
         updateKey(res.employee);
     })
 }
@@ -134,9 +132,9 @@ function updateKey(id) {
         message: "What do you want to update?",
         choices: [{
             name: 'First Name',
-            value: 'fName'},{
+            value: 'first_name'},{
             name: 'Last Name',
-            value: 'lName'},{
+            value: 'last_name'},{
             name: 'Role',
             value: 'role_id'},{
             name: 'Manager',
@@ -148,23 +146,25 @@ function updateKey(id) {
 
 async function updatedValue(id, key) {
     switch (key){
-        case "fName":
+        case "first_name":
                 prompt([{
                     type: "input",
                     name: "fName",
                     message: "New FIRST name?"
                 }]).then(res => {
-                    db.updateEmployee(key, res.fName, id);
+                    var fName = `"${res.fName}"`
+                    db.updateEmployee(key, fName, id);
                     anotherUpdate(id);
                 })
             break;
-        case "lName":
+        case "last_name":
                 prompt([{
                     type: "input",
                     name: "lName",
                     message: "New LAST name?"
                 }]).then(res => {
-                    db.updateEmployee(key, res.lName, id);
+                    var lName = `"${res.lName}"`
+                    db.updateEmployee(key, lName, id);
                     anotherUpdate(id);
                 })
             break;
@@ -196,6 +196,36 @@ async function updatedValue(id, key) {
             console.log(`Sorry, that's not a choice.`);
             updatedValue(id, key);
     }
+}
+
+function displayEmployees(array) {
+    var employeeArray = Object.values(JSON.parse(JSON.stringify(array)));
+    const objList = employeeArray.reduce((acc, employee) => {
+        let {name, ID} = employee;
+        return {...acc, [name]:{'Employee ID':ID}};
+    }, {});
+    console.table(objList);
+    backToMainMenu();
+}
+
+function displayRoles(array) {
+    var rolesArray = Object.values(JSON.parse(JSON.stringify(array)));
+    const objList = rolesArray.reduce((acc, role) => {
+        let {title, salary, department} = role;
+        return {...acc, [title]:{'salary':salary, 'department':department}};
+    }, {});
+    console.table(objList);
+    backToMainMenu();
+}
+
+function displayDepartments(array) {
+    var departmentsArray = Object.values(JSON.parse(JSON.stringify(array)));
+    const objList = departmentsArray.reduce((acc, departmentName) => {
+        let {department, id} = departmentName;
+        return {...acc, [department]:{['Dept. ID']:id}};
+    }, {});
+    console.table(objList);
+    backToMainMenu();
 }
 
 async function anotherUpdate(id){
@@ -249,7 +279,8 @@ async function chooseEmployee(){
     for (var employee of employees){
         var choice = {};
         choice.name = employee.name;
-        choice.value = employee.id;
+        choice.value = employee.ID;
+        console.log(choice.value);
         choiceList.push(choice);
     }
     return choiceList;

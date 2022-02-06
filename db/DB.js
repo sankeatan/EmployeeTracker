@@ -7,8 +7,8 @@ class DB {
         this.connection == connection;
     }
     findAllEmployees() {
-        return connection.promise().query("SELECT CONCAT(employees.first_name,' ', employees.last_name) AS name FROM employees");
-             }
+        return connection.promise().query("SELECT CONCAT(employees.first_name,' ', employees.last_name) AS name, employees.id AS ID FROM employees");
+        }
     
    findAllDepartments() {
         return connection.promise().query(
