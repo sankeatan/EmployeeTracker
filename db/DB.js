@@ -27,28 +27,32 @@ class DB {
     }
 
 
-    addEmployee(fName, lName, roleID, managerID, departmentID){
+    addEmployee(fName, lName, roleID, managerID){
         connection.query(
-            `INSERT INTO employees (first_name, last_name, role_id, manager_id, department_id) VALUES ( ${fName}, ${lName}, ${roleID}, ${managerID}, ${departmentID});`
+            `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${fName}", "${lName}", ${roleID}, ${managerID});`
         )
+        console.log('Employee added!');
     }
 
     addRole(title, salary, departmentID) {
         connection.query(
-            `INSERT INTO roles (title, salary, department_id) VALUES ( ${title}, ${salary}, ${departmentID});`
+            `INSERT INTO roles (title, salary, department_id) VALUES (${title}, ${salary}, ${departmentID});`
         )
+        console.log("Role added!")
     }
 
     addDepartment(name) {
         connection.query(
             `INSERT INTO departments (name) VALUES ( ${name});`
         )
+        console.log('Department added!')
     }
 
     updateEmployee(key, value, id) {
         connection.query(
             `UPDATE employees SET ${key}=${value} WHERE id=${id};`
         )
+        console.log(`Employee updated!`);
     }
 
 
