@@ -7,24 +7,25 @@ class DB {
         this.connection == connection;
     }
     findAllEmployees() {
-        connection.query("SELECT * FROM employees", function (err, results) {
-                console.log(results);
-              });
+        return connection.promise().query("SELECT CONCAT(employees.first_name,' ', employees.last_name) AS name FROM employees");
              }
     
-    findAllDepartments() {
-        return connection.query(
-            "SELECT departments.name AS department, departments.id FROM departments", function (err, results) {
-                console.log(results);
-              });
-            }
+   findAllDepartments() {
+        return connection.promise().query(
+            "SELECT departments.name AS department, departments.id FROM departments");
+        }
 
-    findAllRoles(){
-        return connection.query(
-            "SELECT roles.title, roles.salary, roles.is, departments.name AS department FROM roles JOIN departments ON roles.department_id = departments.id;", function (err, results) {
-                console.log(results);
-              });
+    findAllRoles() {
+        return connection.promise().query(
+            "SELECT roles.id, roles.title, roles.salary, departments.name AS department FROM roles JOIN departments ON roles.department_id = departments.id;");
     }
+
+    findAllManagers() {
+        return connection.promise().query(
+            "SELECT CONCAT(employees.first_name,' ', employees.last_name) AS name, employees.id FROM employees WHERE employees.manager_id IS NULL;"
+        )
+    }
+
 
     addEmployee(fName, lName, roleID, managerID, departmentID){
         connection.query(
@@ -60,7 +61,7 @@ class DB {
 
     findEmployeesByDepartment (){
         return this.connection.query(
-            "SELECT department.name AS department, employee.id, (employee.first_name,' ', employee.last_name) AS employee, role.title, role.salary, (manager.first_name,' ', manager.last_name) AS manager FROM department INNER JOIN employee ON department.id = employee.department_id LEFT JOIN role ON employee.role_id = role.id;"
+            "SELECT department.name AS department, employee.id, (employee.first_name,' ', employee.last_name) AS employee, role.title, role.salary, FROM department INNER JOIN employee ON department.id = employee.department_id LEFT JOIN role ON employee.role_id = role.id;"
         )
     }
 }
