@@ -101,7 +101,7 @@ function backToMainMenu(){
 }
 
 function quit(){
-    process.exit(0);;
+    process.exit(0);
 }
 
-module.exports = {mainMenu, backToMainMenu, quit};
+module.exports = {mainMenu, backToMainMenu};
