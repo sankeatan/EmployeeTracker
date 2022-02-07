@@ -104,4 +104,4 @@ function quit(){
     process.exit(0);
 }
 
-module.exports = {mainMenu, backToMainMenu};
+module.exports = { mainMenu, backToMainMenu };

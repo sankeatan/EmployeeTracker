@@ -1,7 +1,6 @@
-const { prompt } = require("inquirer");
 const DB = require("../db/DB");
 const db = new DB;
-const { backToMainMenu } = require('./menu.js');
+const { backToMainMenu } = require('./menu');
 
 function displayEmployees(array) {
     var employeeArray = Object.values(JSON.parse(JSON.stringify(array)));
