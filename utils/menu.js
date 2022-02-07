@@ -50,40 +50,43 @@ function mainMenu () {
         let choice = res.choice;
         switch (choice){
             case "VIEW EMPLOYEES":
-                    db.findAllEmployees().then(res =>{
+                    db.findAllEmployees()
+                    .then(res =>{
                         displayEmployees(res[0]);
-                        });
+                        backToMainMenu();
+                        })
                 break;
             case "VIEW DEPARTMENTS":
                 db.findAllDepartments().then(res =>{
                     displayDepartments(res[0]);
+                    backToMainMenu()
                     });
                 break;
             case "VIEW ROLES":
                 db.findAllRoles().then(res =>{
                     displayRoles(res[0]);
+                    backToMainMenu()
                     });
                 break;
             case "ADD EMPLOYEE":
-                addEmployeeQuestions();
+                addEmployeeQuestions()
+                .then(backToMainMenu());
                 break;
             case "UPDATE EMPLOYEE":
-                updateEmployeeQuestions();
+                updateEmployeeQuestions().then(backToMainMenu());
                 break;
             case "ADD ROLE":
-                addRoleQuestions();
+                addRoleQuestions().then(backToMainMenu());
                 break;
             case "ADD DEPARTMENT":
-                addDepartmentQuestions();
+                addDepartmentQuestions().then(backToMainMenu());
                 break;
             case "QUIT":
-                process.exit(0);
+                quit();
             default: 
                 console.log(`Sorry, that's not a choice.`);
                 backToMainMenu();
         }
-        
-       
     })
 }
 
@@ -104,4 +107,4 @@ function quit(){
     process.exit(0);
 }
 
-module.exports = { mainMenu, backToMainMenu };
+module.exports = {mainMenu};

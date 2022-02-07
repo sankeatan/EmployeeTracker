@@ -1,6 +1,6 @@
 const DB = require("../db/DB");
 const db = new DB;
-const { backToMainMenu } = require('./menu');
+
 
 function displayEmployees(array) {
     var employeeArray = Object.values(JSON.parse(JSON.stringify(array)));
@@ -9,7 +9,6 @@ function displayEmployees(array) {
         return {...acc, [name]:{'Employee ID':ID}};
     }, {});
     console.table(objList);
-    backToMainMenu();
 }
 
 function displayRoles(array) {
@@ -19,7 +18,6 @@ function displayRoles(array) {
         return {...acc, [title]:{'salary':salary, 'department':department}};
     }, {});
     console.table(objList);
-    backToMainMenu();
 }
 
 function displayDepartments(array) {
@@ -29,7 +27,6 @@ function displayDepartments(array) {
         return {...acc, [department]:{['Dept. ID']:id}};
     }, {});
     console.table(objList);
-    backToMainMenu();
 }
 
 module.exports = {displayEmployees, displayRoles, displayDepartments}

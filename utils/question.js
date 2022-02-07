@@ -4,7 +4,6 @@ const db = new DB;
 
 const {chooseEmployee, chooseRole, chooseManager, chooseDepartment} = require('./choose');
 
-
 async function addEmployeeQuestions () {
     var roleChoices = await chooseRole();
     var managerChoices = await chooseManager();
@@ -35,7 +34,6 @@ async function addEmployeeQuestions () {
     ]).then(res => {
         db.addEmployee(res.fName, res.lName, res.role, res.manager);
         console.log('New employee added!')
-        backToMainMenu();
     })
 }
 
@@ -135,11 +133,9 @@ async function anotherUpdate(id){
     }]).then(async res => {
         if (res.update == true){
             updateKey(id);
-        } else {
-            mainMenu();
-        }
-    })
-}
+            }
+        })
+    }
 
 async function addRoleQuestions(){
     var departmentChoices = await chooseDepartment();
@@ -162,7 +158,6 @@ async function addRoleQuestions(){
         }
     ]).then(res => {
         db.addRole(`"${res.title}"`, res.salary, res.department);
-        backToMainMenu();
     })
 }
 
@@ -176,7 +171,6 @@ async function addDepartmentQuestions(){
         }
     ]).then(res => {
         db.addDepartment(`"${res.name}"`);
-        backToMainMenu();
     })
 }
 
