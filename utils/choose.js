@@ -10,7 +10,6 @@ async function chooseEmployee(){
         var choice = {};
         choice.name = employee.name;
         choice.value = employee.ID;
-        console.log(choice.value);
         choiceList.push(choice);
     }
     return choiceList;

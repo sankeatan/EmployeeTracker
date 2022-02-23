@@ -3,7 +3,7 @@ const DB = require("../db/DB");
 const db = new DB;
 
 const {displayEmployees, displayRoles, displayDepartments} = require('./display');
-const {addEmployeeQuestions, updateEmployeeQuestions, addRoleQuestions, addDepartmentQuestions} = require('./question');
+const {addEmployeeQuestions, updateEmployeeQuestions, addRoleQuestions, addDepartmentQuestions, updateKey} = require('./question');
 
 function mainMenu () {
     prompt([
@@ -69,17 +69,23 @@ function mainMenu () {
                     });
                 break;
             case "ADD EMPLOYEE":
-                addEmployeeQuestions()
-                .then(backToMainMenu());
+                 addEmployeeQuestions()
+                 .then(res => {
+                    db.addEmployee(res.fName, res.lName, res.role, res.manager);
+                    }).then(() => {backToMainMenu()})
                 break;
             case "UPDATE EMPLOYEE":
-                updateEmployeeQuestions().then(backToMainMenu());
+                updateEmployeeQuestions()
+                .then(res => {
+                    db.updateEmployee(res.key, `"${res.value}"`, res.id);
+                    }).then(() => {backToMainMenu()})
                 break;
             case "ADD ROLE":
-                addRoleQuestions().then(backToMainMenu());
+                addRoleQuestions()
+                .then(() => {backToMainMenu()})
                 break;
             case "ADD DEPARTMENT":
-                addDepartmentQuestions().then(backToMainMenu());
+                addDepartmentQuestions().then(() => {backToMainMenu()})
                 break;
             case "QUIT":
                 quit();
